@@ -3,6 +3,9 @@
 
 const int pulseInputPin = 2; // Use D2 (Digital Pin 2) for pulse detection
 volatile unsigned long totalPulses = 0; // Declare totalPulses as volatile
+volatile unsigned long uploadPulses = 0; // Declare uploadPulses as volatile
+
+// Require a unique counter for the upload values
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 IPAddress ip(10, 66, 192, 46); // Establish IP
@@ -29,7 +32,8 @@ void setup() {
 }
 
 void pulseRisingInterrupt() {
-  totalPulses++; // Increment the pulse count when a rising edge is detected
+  totalPulses++;
+  uploadPulses++; // Increment the total and upload pulse counts when a rising edge is detected
 }
 
 void loop() {
@@ -41,8 +45,7 @@ void loop() {
   if (currentMillis - previousMillis >= 1000) {
     previousMillis = currentMillis;
 
-    float frequencykHz = (float)totalPulses / 1000.0; // Convert to kHz
-
+    float frequencykHz = 0.991 * (float)totalPulses / 100.0; // Convert to kHz times 10
     // Print to the Serial Monitor with units
     Serial.print("Frequency (kHz): ");
     Serial.println(frequencykHz);
@@ -54,7 +57,9 @@ void loop() {
   if (currentMillis - uploadMillis >= 5000) {
     uploadMillis = currentMillis;
 
-    float frequencykHz = (float)totalPulses / 5000.0; // Convert to kHz
+    float frequencykHz = 0.991 * (float)uploadPulses / 500.0; // Convert to kHz * 10, minus error
+
+    uploadPulses = 0; // Reset upload pulse count
 
     EthernetClient client = server.available();
     if (client) {
