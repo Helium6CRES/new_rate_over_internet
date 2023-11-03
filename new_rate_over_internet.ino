@@ -45,7 +45,7 @@ void loop() {
   if (currentMillis - previousMillis >= 1000) {
     previousMillis = currentMillis;
 
-    float frequencykHz = 0.991 * (float)totalPulses / 100.0; // Convert to kHz times 10
+    float frequencykHz = (float)totalPulses / 100.0; // Convert to kHz times 10
     // Print to the Serial Monitor with units
     Serial.print("Frequency (kHz): ");
     Serial.println(frequencykHz);
@@ -57,7 +57,7 @@ void loop() {
   if (currentMillis - uploadMillis >= 5000) {
     uploadMillis = currentMillis;
 
-    float frequencykHz = 0.991 * (float)uploadPulses / 500.0; // Convert to kHz * 10, minus error
+    float frequencykHz = (float)uploadPulses / 500.0; // Convert to kHz * 10, minus error
 
     uploadPulses = 0; // Reset upload pulse count
 
