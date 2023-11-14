@@ -5,8 +5,6 @@ const int pulseInputPin = 2; // Use D2 (Digital Pin 2) for pulse detection
 volatile unsigned long totalPulses = 0; // Declare totalPulses as volatile
 volatile unsigned long uploadPulses = 0; // Declare uploadPulses as volatile
 
-// Require a unique counter for the upload values
-
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 IPAddress ip(10, 66, 192, 46); // Establish IP
 
@@ -66,7 +64,10 @@ void loop() {
       client.println("HTTP/1.1 200 OK");
       client.println("Content-Type: text/html");
       client.println("Connection: close");
-      client.println("Refresh: 5"); // Refresh the page every 5 seconds
+      // client.println("Refresh: 5");
+      Serial.println("Client connected"); // Add this line when a client connects
+      Serial.println("Working"); // Add this line to confirm the function is running
+
       client.println();
       client.print(frequencykHz); // Send the frequency with units (kHz)
       client.stop();
