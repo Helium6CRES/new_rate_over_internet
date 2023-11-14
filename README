@@ -1,0 +1,21 @@
+This code must be run on an Arduino Nano, and is designed to be run in the Ethernet unit of the HE-6 CRES Beta Monitor
+
+new_rate_over_internet will take TTL inputs on Pin 5 of the nano and calculate a rate from that and multiply it by 10 before printing it to the serial monitor (attached computer) every second and upload to the IP every 5 seconds
+This should be used for debugging the unit, as the upload speed is limited and much of the memory is wasted in printing to the monitor.
+
+upload_code will do the same, but will not print to serial monitor and upload to the IP every 0.5 seconds.
+This should be the code ran during data-taking
+
+Notes:
+
+The nano must also be connected to an ethernet module, as the arduino cannot host a page on its own.
+
+The nano must recieve 5V TTL pulses on pin 5 to read a rate accurately. Any over this voltage threshold risks damage, and much below risks not being detected
+
+The arduino will begin to break down at input frequencies over 125 MHz, hence the factor of 10
+
+new_rate_over_internet will not refresh the page unless pinged, but upload_code will refresh on its own
+
+Despite what's written in the code, the IP will only display a new value every other interval on the code. So the IP print speed for new_rate_over_internet is closer to 10 seconds, and upload_code is closer to every 1 second.
+
+
