@@ -69,7 +69,9 @@ void loop() {
       Serial.println("Working"); // Add this line to confirm the function is running
 
       client.println();
+      client.print("Monitor rate is ");
       client.print(frequencykHz); // Send the frequency with units (kHz)
+      client.print(" kHz");
       client.stop();
     }
   }
